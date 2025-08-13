@@ -1,0 +1,245 @@
+vikas@devil:~$ sudo mysql_secure_installation
+
+NOTE: RUNNING ALL PARTS OF THIS SCRIPT IS RECOMMENDED FOR ALL MariaDB
+      SERVERS IN PRODUCTION USE!  PLEASE READ EACH STEP CAREFULLY!
+
+In order to log into MariaDB to secure it, we'll need the current
+password for the root user. If you've just installed MariaDB, and
+haven't set the root password yet, you should just press enter here.
+
+Enter current password for root (enter for none): 
+OK, successfully used password, moving on...
+
+Setting the root password or using the unix_socket ensures that nobody
+can log into the MariaDB root user without the proper authorisation.
+
+You already have your root account protected, so you can safely answer 'n'.
+
+Switch to unix_socket authentication [Y/n] y
+Enabled successfully!
+Reloading privilege tables..
+ ... Success!
+
+
+You already have your root account protected, so you can safely answer 'n'.
+
+Change the root password? [Y/n] y
+New password: 
+Re-enter new password: 
+Password updated successfully!
+Reloading privilege tables..
+ ... Success!
+
+
+By default, a MariaDB installation has an anonymous user, allowing anyone
+to log into MariaDB without having to have a user account created for
+them.  This is intended only for testing, and to make the installation
+go a bit smoother.  You should remove them before moving into a
+production environment.
+
+Remove anonymous users? [Y/n] y
+ ... Success!
+
+Normally, root should only be allowed to connect from 'localhost'.  This
+ensures that someone cannot guess at the root password from the network.
+
+Disallow root login remotely? [Y/n] y
+ ... Success!
+
+By default, MariaDB comes with a database named 'test' that anyone can
+access.  This is also intended only for testing, and should be removed
+before moving into a production environment.
+
+Remove test database and access to it? [Y/n] y
+ - Dropping test database...
+ ... Success!
+ - Removing privileges on test database...
+ ... Success!
+
+Reloading the privilege tables will ensure that all changes made so far
+will take effect immediately.
+
+Reload privilege tables now? [Y/n] y
+ ... Success!
+
+Cleaning up...
+
+All done!  If you've completed all of the above steps, your MariaDB
+installation should now be secure.
+
+Thanks for using MariaDB!
+vikas@devil:~$ mysql -u root -p  ------------------------------------------------------> database login karne ke liye
+Enter password: 
+Welcome to the MariaDB monitor.  Commands end with ; or \g.
+Your MariaDB connection id is 44
+Server version: 10.6.18-MariaDB-0ubuntu0.22.04.1 Ubuntu 22.04
+
+Copyright (c) 2000, 2018, Oracle, MariaDB Corporation Ab and others.
+
+Type 'help;' or '\h' for help. Type '\c' to clear the current input statement.
+
+MariaDB [(none)]> create database mydatabase; --------------------------------------------> database bnane ke liye
+Query OK, 1 row affected (0.001 sec)
+
+MariaDB [(none)]> show databases  --------------------------------------------------------> database dekhne ke liye
+    -> ;
++--------------------+
+| Database           |
++--------------------+
+| information_schema |
+| mydatabase         |
+| mysql              |
+| performance_schema |
+| sys                |
++--------------------+
+5 rows in set (0.001 sec)
+
+MariaDB [(none)]> use mydatabase  -------------------------------------------------------> database ke andar jane ke liye
+Database changed
+
+MariaDB [mydatabase]> create table table1(sr int not null auto_increment,name char(20) not null,email char(100) not null,password char(100) not null,primary key(sr)); ----------------------------------------------> table bnane ke liye
+
+
+Query OK, 0 rows affected (0.030 sec)
+
+MariaDB [college_data]> insert into college_table(sr,name,sub_name,number) values(1,"vikas singh","math",97),(2,"rohit","english",90); ----
+                                               ---------------------------table me data insert karne ke liye
+Query OK, 2 rows affected (0.010 sec)
+Records: 2  Duplicates: 0  Warnings: 0
+
+MariaDB [college_data]> select * from college_table;
++----+-------------+----------+--------+
+| sr | name        | sub_name | number |
++----+-------------+----------+--------+
+|  1 | vikas singh | math     |     97 |
+|  2 | rohit       | english  |     90 |
++----+-------------+----------+--------+
+2 rows in set (0.001 sec)
+
+
+MariaDB [mydatabase]> show tables;  -----------------------------------------------------> sbhi table ko dekhne ke liye
++----------------------+
+| Tables_in_mydatabase |
++----------------------+
+| table1               |
++----------------------+
+1 row in set (0.001 sec)
+
+MariaDB [mydatabase]> desc table1  ------------------------------------------------------> table ka strechar dekhne ke liye
+    -> ;
++---------+----------+------+-----+---------+----------------+
+| Field   | Type     | Null | Key | Default | Extra          |
++---------+----------+------+-----+---------+----------------+
+| sr      | int(11)  | NO   | PRI | NULL    | auto_increment |
+| name    | char(20) | NO   |     | NULL    |                |
+| contact | int(11)  | NO   |     | NULL    |                |
++---------+----------+------+-----+---------+----------------+
+3 rows in set (0.002 sec)
+ 
+MariaDB [mydatabase3]> alter table mytable add column college_name char(100); ------------------> table strechar update karne ke liye
+Query OK, 0 rows affected (0.021 sec)
+Records: 0  Duplicates: 0  Warnings: 0
+
+MariaDB [mydatabase3]> desc mytable;
++--------------+-----------+------+-----+---------+----------------+
+| Field        | Type      | Null | Key | Default | Extra          |
++--------------+-----------+------+-----+---------+----------------+
+| sr           | int(11)   | NO   | PRI | NULL    | auto_increment |
+| name         | char(20)  | NO   |     | NULL    |                |
+| collegename  | char(50)  | YES  |     | NULL    |                |
+| college_name | char(100) | YES  |     | NULL    |                |
++--------------+-----------+------+-----+---------+----------------+
+4 rows in set (0.001 sec)
+
+MariaDB [mydatabase3]> UPDATE mytable SET name = "himanshi" WHERE name = "ritik_singh"; -------------------> table ka data update karne ke 
+                                                                                                                    liye
+Query OK, 1 row affected (0.015 sec)
+Rows matched: 1  Changed: 1  Warnings: 0
+
+MariaDB [mydatabase3]> select * from mytable;
++----+-------------+-------------+--------------+
+| sr | name        | collegename | college_name |
++----+-------------+-------------+--------------+
+|  1 | himanshi    | NULL        | gla          |
+|  2 | vikas_singh | gla         | gla          |
++----+-------------+-------------+--------------+
+2 rows in set (0.000 sec)
+
+MariaDB [mydatabase3]> UPDATE mytable SET college_name = "sds inter college" WHERE name = "vikas_singh"; ------------>table ka data update 
+                                                                                                                        karne ke liye
+Query OK, 1 row affected (0.011 sec)
+Rows matched: 1  Changed: 1  Warnings: 0
+
+MariaDB [mydatabase3]> select * from mytable;
++----+-------------+-------------+-------------------+
+| sr | name        | collegename | college_name      |
++----+-------------+-------------+-------------------+
+|  1 | himanshi    | NULL        | gla               |
+|  2 | vikas_singh | gla         | sds inter college |
++----+-------------+-------------+-------------------+
+2 rows in set (0.001 sec)
+
+MariaDB [mydatabase2]> select * from table3;
++----+-------+------------+
+| sr | name  | post       |
++----+-------+------------+
+|  1 | vikas | jaipur     |
+|  2 | vivek | manjhanpur |
+|  3 | ayush | pune       |
++----+-------+------------+
+3 rows in set (0.001 sec)
+
+MariaDB [mydatabase2]>  DELETE FROM table3 WHERE name = "vivek"; -------------------> table ki kisi ak row ko delete karne ke liye
+Query OK, 1 row affected (0.008 sec)
+
+MariaDB [mydatabase2]> select * from table3;
++----+-------+--------+
+| sr | name  | post   |
++----+-------+--------+
+|  1 | vikas | jaipur |
+|  3 | ayush | pune   |
++----+-------+--------+
+2 rows in set (0.001 sec)
+
+
+MariaDB [mydatabase3]> TRUNCATE TABLE mytable; -----------------------------------------> table ka pura data delete karne ke liye
+Query OK, 0 rows affected (0.014 sec)
+
+MariaDB [mydatabase3]> select * from mytable;
+Empty set (0.001 sec)
+
+MariaDB [mydatabase3]> desc mytable
+    -> ;
++--------------+-----------+------+-----+---------+----------------+
+| Field        | Type      | Null | Key | Default | Extra          |
++--------------+-----------+------+-----+---------+----------------+
+| sr           | int(11)   | NO   | PRI | NULL    | auto_increment |
+| name         | char(20)  | NO   |     | NULL    |                |
+| collegename  | char(50)  | YES  |     | NULL    |                |
+| college_name | char(100) | YES  |     | NULL    |                |
++--------------+-----------+------+-----+---------+----------------+
+4 rows in set (0.002 sec)
+
+MariaDB [mydatabase3]> DROP TABLE mytable;-------------------------------------------> table delete karne ke liye
+Query OK, 0 rows affected (0.014 sec)
+
+MariaDB [mydatabase3]> select * from mytable;
+Empty set (0.001 sec)
+
+MariaDB [mydatabase3]>  DROP DATABASE mydatabase3; ---------------------------------------> database delete karne ke liye
+Query OK, 0 rows affected (0.004 sec)
+
+MariaDB [(none)]> show databases;
++--------------------+
+| Database           |
++--------------------+
+| devil              |
+| information_schema |
+| mydatabase         |
+| mydatabase2        |
+| mysql              |
+| performance_schema |
+| sys                |
++--------------------+
+7 rows in set (0.001 sec)
+
